@@ -1,0 +1,35 @@
+{
+  "folders" : [
+    {
+      "issueIDs" : [
+        "C1665DC5-54D4-4F6F-8929-6B619767FD8D",
+        "19066DA8-4F0B-4F49-97B9-697ECDE1FEAF"
+      ],
+      "identifier" : "B2A93EA6-D3D4-43B7-9A65-B68D2303185A",
+      "color" : "ffff3b30",
+      "title" : "Model"
+    }
+  ],
+  "issues" : [
+    {
+      "body" : "Record ride duration",
+      "closed" : false,
+      "created" : 771108335.205045,
+      "title" : "Ride Duration",
+      "number" : 1,
+      "due" : 771108335.205045,
+      "identifier" : "C1665DC5-54D4-4F6F-8929-6B619767FD8D",
+      "modified" : 771108412.618017
+    },
+    {
+      "body" : "",
+      "closed" : false,
+      "created" : 771108434.527938,
+      "title" : "HIstory View",
+      "number" : 2,
+      "due" : 771108434.527938,
+      "identifier" : "19066DA8-4F0B-4F49-97B9-697ECDE1FEAF",
+      "modified" : 771108445.572786
+    }
+  ]
+}
