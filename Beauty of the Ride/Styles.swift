@@ -14,8 +14,8 @@ extension View {
     @ViewBuilder func outlinedBox() -> some View {
         self.background(
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.secondary, lineWidth: 0.5)
-                .fill(Color.gray.opacity(0.3))
+                .stroke(Color.secondary, lineWidth: 0.25)
+                .fill(Color.gray.opacity(0.125))
                 .shadow(radius: 10)
         )
     }
