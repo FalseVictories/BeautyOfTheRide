@@ -26,7 +26,6 @@ struct SpeedView: View {
                      width: width(for: currentSpeed))
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .border(.green, width: 2)
         .frame(width: 300)
     }
 }

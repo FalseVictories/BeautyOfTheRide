@@ -46,81 +46,71 @@ struct ContentView: View {
     let locationAuthStatus: LocationAuthorizationStatus
     
     var body: some View {
-        VStack(spacing: 50) {
-            HistoryView()
-                .id(ContentView.historySection)
-                .accessibilityAddTraits(.isHeader)
-                .accessibilityHeading(.h2)
-            
-            if locationAuthStatus.isAuthorized {
-                let rideData = rideData(fromRide: currentRide)
+        NavigationStack {
+            VStack(spacing: 50) {
+                HistoryView()
+                    .id(ContentView.historySection)
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityHeading(.h2)
                 
-                RideView(highestSpeed: rideData.highestSpeed,
-                         currentSpeed: rideData.currentSpeed,
-                         averageSpeed: rideData.averageSpeed,
-                         topSpeed: rideData.topSpeed,
-                         totalDistance: rideData.totalDistance,
-                         totalDuration: rideData.duration)
-                .id(ContentView.rideSection)
-                .frame(maxHeight: .infinity, alignment: .top)
-                .accessibilityAddTraits(.isHeader)
-                .accessibilityHeading(.h1)
-            } else {
-                ErrorView(errorReason: locationAuthStatus)
-                    .id(ContentView.errorSection)
+                if locationAuthStatus.isAuthorized {
+                    let rideData = rideData(fromRide: currentRide)
+                    
+                    RideView(highestSpeed: rideData.highestSpeed,
+                             currentSpeed: rideData.currentSpeed,
+                             averageSpeed: rideData.averageSpeed,
+                             topSpeed: rideData.topSpeed,
+                             totalDistance: rideData.totalDistance,
+                             totalDuration: rideData.duration)
+                    .id(ContentView.rideSection)
+                    .frame(maxHeight: .infinity, alignment: .top)
                     .accessibilityAddTraits(.isHeader)
                     .accessibilityHeading(.h1)
-            }
-            
-            Spacer()
-            
-#if DEBUG
-            HStack {
-                Button(action: {
-                    PreviewData.createDevData(inContext: modelContext)
-                }, label: {
-                    Text("Load test data")
-                })
+                } else {
+                    ErrorView(errorReason: locationAuthStatus)
+                        .id(ContentView.errorSection)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
+                }
                 
-                Button(action: {
-                    do {
-                        try modelContext.delete(model: RideItem.self)
-                    } catch {
-                        print("Error: \(error)")
-                    }
-                }, label: {
-                    Text("Clear data")
-                })
-            }
-#endif // DEBUG
-            
-            Button(action: {
-                if isTrackingRide {
-                    if let ride = stopTrackingRide() {
-                        modelContext.insert(ride.itemFromRide())
+                Spacer()
+                
+                /*
+#if DEBUG
+                HStack {
+                    Button(action: {
+                        PreviewData.createDevData(inContext: modelContext)
+                    }, label: {
+                        Text("Load test data")
+                    })
+                    
+                    Button(action: {
                         do {
-                            try modelContext.save()
+                            try modelContext.delete(model: RideItem.self)
                         } catch {
                             print("Error: \(error)")
                         }
-                    }
-                } else {
-                    startTrackingRide()
+                    }, label: {
+                        Text("Clear data")
+                    })
                 }
-                
-            }, label: {
-                Label(title: {
-                    Text(isTrackingRide ? "Stop Ride" : "Start Ride")
-                }, icon: {
-                    Image(systemName: "bicycle")
-                })
-                .padding(16)
-                .frame(maxWidth: .infinity)
-                .foregroundStyle(.white)
-            })
-            .background(RoundedRectangle(cornerRadius: 40)
-                .foregroundStyle(.speedAccent))
-            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+#endif // DEBUG
+                 */
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button {
+                        startOrStopRide()
+                    } label: {
+                        HStack {
+                            Text(isTrackingRide ? "Stop Ride" : "Start Ride")
+                            Image(systemName: "bicycle")
+                        }
+                        .padding()
+                    }
+                    .tint(isTrackingRide ? Color.topSpeed : Color.currentSpeed)
+                }
+            }
         }
     }
 }
@@ -135,6 +125,21 @@ extension ContentView {
                             duration: .seconds(ride.totalDuration))
         } else {
             return .empty
+        }
+    }
+    
+    private func startOrStopRide() {
+        if isTrackingRide {
+            if let ride = stopTrackingRide() {
+                modelContext.insert(ride.itemFromRide())
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Error: \(error)")
+                }
+            }
+        } else {
+            startTrackingRide()
         }
     }
 }

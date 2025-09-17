@@ -9,35 +9,34 @@ struct RideView: View {
     let totalDuration: Duration
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             Text("\(totalDistance, format: lengthStyle)")
                 .foregroundStyle(.primary)
                 .font(.system(size: 48, weight: .bold))
                 .foregroundStyle(.primary)
-                .frame(maxWidth: .infinity, alignment: .center)
-
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
             Text(totalDuration.formatted())
                 .foregroundStyle(.secondary)
+            
+            Divider()
             
             SpeedView(highestSpeed: highestSpeed,
                       currentSpeed: currentSpeed,
                       topSpeed: topSpeed,
                       averageSpeed: averageSpeed)
             .frame(alignment: .leading)
-            .border(.red, width: 2)
         }
         .frame(width: 300)
         .padding(30)
-        .background(RoundedRectangle(cornerRadius: 20)
-            .foregroundStyle(.speedBackground)
-            .shadow(radius: 10))
+        .outlinedBox()
         .accessibilityElement()
         .accessibilityLabel("Speed")
     }
 }
 
 #Preview {
-    RideView(highestSpeed: Measurement(value: 10,
+    RideView(highestSpeed: Measurement(value: 3,
                                        unit: .metersPerSecond),
              currentSpeed: Measurement(value: 5.5,
                                        unit: .metersPerSecond),

@@ -12,8 +12,7 @@ struct HistoryView: View {
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
         }
         .frame(maxWidth: .infinity)
-        .background(RoundedRectangle(cornerRadius: 20)
-            .foregroundStyle(.averageSpeed))
+        .outlinedBox()
         .foregroundStyle(.primary)
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
         .shadow(radius: 10)
